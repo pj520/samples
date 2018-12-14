@@ -3,7 +3,7 @@
 
 #include <unistd.h>
 #include <fcntl.h>
-#include <sys/stat.h>   
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <stdio.h>
@@ -15,23 +15,19 @@
 #define PATH_MAX 1024   // 默认最大路径长度
 #endif
 
-class SingleApplication
-{
+class SingleApplication {
 public:
-    static bool isRunning()
-    {
+    static bool isRunning() {
         // 获取当前可执行文件名
         std::string processName = currentExeName();
-        if (processName.empty())
-        {
+        if (processName.empty()) {
             exit(1);
         }
 
         // 打开或创建一个文件
         std::string filePath = std::string("/var/run/") + processName + ".pid";
         int fd = open(filePath.c_str(), O_RDWR | O_CREAT, 0666);
-        if (fd < 0)
-        {
+        if (fd < 0) {
             printf("Open file failed, error : %s", strerror(errno));
             exit(1);
         }
@@ -44,10 +40,8 @@ public:
         fl.l_whence = SEEK_SET;
         fl.l_len = 0;
         int ret = fcntl(fd, F_SETLK, &fl);
-        if (ret < 0)
-        {
-            if (errno == EACCES || errno == EAGAIN)
-            {
+        if (ret < 0) {
+            if (errno == EACCES || errno == EAGAIN) {
                 printf("%s already locked, error: %s\n", filePath.c_str(), strerror(errno));
                 close(fd);
                 return true;
@@ -59,8 +53,7 @@ public:
         sprintf(buf, "%d", getpid());
         ftruncate(fd, 0);
         ret = write(fd, buf, strlen(buf));
-        if (ret < 0)
-        {
+        if (ret < 0) {
             printf("Write file failed, file: %s, error: %s\n", filePath.c_str(), strerror(errno));
             close(fd);
             exit(1);
@@ -73,20 +66,17 @@ public:
     }
 
 private:
-    static std::string currentExeName()
-    {
+    static std::string currentExeName() {
         char buf[PATH_MAX] = {'\0'};
 
         int ret = readlink("/proc/self/exe", buf, PATH_MAX);
-        if (ret < 0 || ret >= PATH_MAX)
-        {
+        if (ret < 0 || ret >= PATH_MAX) {
             return "";
         }
 
         std::string path(buf);
         int pos = path.find_last_of("/");
-        if (pos == -1)
-        {
+        if (pos == -1) {
             return "";
         }
 

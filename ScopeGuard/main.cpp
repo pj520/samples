@@ -5,10 +5,8 @@
 #include <iostream>
 #include <functional>
 
-int main()
-{
-    std::function<void()> func = []
-    {
+int main() {
+    std::function<void()> func = [] {
         std::cout << "Cleanup from unnormal exit" << std::endl;
     };
 

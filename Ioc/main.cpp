@@ -1,52 +1,42 @@
 #include <iostream>
 #include "IocContainer.hpp"
 
-class ICar
-{
+class ICar {
 public:
-    virtual ~ICar()
-    {
+    virtual ~ICar() {
         // Do nothing
     }
 
     virtual void test() = 0;
 };
 
-class Bus: public ICar
-{
+class Bus : public ICar {
 public:
-    virtual void test() override
-    {
+    virtual void test() override {
         std::cout << "Bus::test" << std::endl;
     }
 };
 
-class Car : public ICar
-{
+class Car : public ICar {
 public:
-    virtual void test() override
-    {
+    virtual void test() override {
         std::cout << "Car::test" << std::endl;
     }
 };
 
-struct A
-{
-    void func()
-    {
+struct A {
+    void func() {
         std::cout << "A::func()" << std::endl;
     }
 };
 
-struct B
-{
-    void func()
-    {
+struct B {
+    void func() {
         std::cout << "B::func()" << std::endl;
     }
 };
-int main()
-{
+
+int main() {
 #if 0
     IocContainer<ICar> ioc;
 

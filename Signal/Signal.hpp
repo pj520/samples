@@ -3,20 +3,17 @@
 #include <functional>
 #include <unordered_map>
 
-namespace
-{
-std::unordered_map<int, std::function<void()>> signalMap;
-void handleSignal(int sig)
-{
-    signalMap[sig]();
-}
+namespace {
+    std::unordered_map<int, std::function<void()>> signalMap;
+
+    void handleSignal(int sig) {
+        signalMap[sig]();
+    }
 }
 
-class Signal
-{
+class Signal {
 public:
-    static void signal(int sig, const std::function<void()>& func)
-    {
+    static void signal(int sig, const std::function<void()> &func) {
         signalMap.emplace(sig, func);
         assert(::signal(sig, handleSignal) != SIG_ERR);
     }

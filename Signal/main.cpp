@@ -4,18 +4,15 @@
 #include <iostream>
 #include "Signal.hpp"
 
-class A
-{
+class A {
 public:
-    void handleExit()
-    {
+    void handleExit() {
         std::cout << "Process exit..." << std::endl;
         exit(0);
     }
 };
 
-int main()
-{
+int main() {
     std::cout << "Process start..." << std::endl;
     A a;
     Signal::signal(SIGINT, std::bind(&A::handleExit, &a));
