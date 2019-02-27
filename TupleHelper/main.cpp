@@ -2,19 +2,16 @@
 #include <string>
 #include "tuple_helper.hpp"
 
-int add(int a, int b)
-{
+int add(int a, int b) {
     return a + b;
 }
 
-struct person
-{
+struct person {
     int age = 0;
     std::string name;
 };
 
-int main()
-{
+int main() {
     std::cout << "******tuple_printer*********" << std::endl;
     std::tuple<int, short, double, char> tp = std::make_tuple(1, 2, 3, 'a');
     print_tuple(tp);
@@ -31,7 +28,7 @@ int main()
 
 
     std::cout << "******std::array to std::tuple*********" << std::endl;
-    std::array<int, 4> arr { 1, 2, 3, 4 };
+    std::array<int, 4> arr{1, 2, 3, 4};
     std::cout << array2tuple(arr) << std::endl;
 
     std::cout << "******std::tuple invoke*********" << std::endl;

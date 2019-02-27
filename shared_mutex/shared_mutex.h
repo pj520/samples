@@ -9,31 +9,25 @@
 
 #include <pthread.h>
 
-class shared_mutex
-{
+class shared_mutex {
 public:
-    shared_mutex()
-    {
+    shared_mutex() {
         pthread_rwlock_init(&mutex_, nullptr);
     }
 
-    ~shared_mutex()
-    {
+    ~shared_mutex() {
         pthread_rwlock_destroy(&mutex_);
     }
 
-    void lock_read()
-    {
+    void lock_read() {
         pthread_rwlock_rdlock(&mutex_);
     }
 
-    void lock_write()
-    {
+    void lock_write() {
         pthread_rwlock_wrlock(&mutex_);
     }
 
-    void unlock()
-    {
+    void unlock() {
         pthread_rwlock_unlock(&mutex_);
     }
 
@@ -41,27 +35,21 @@ private:
     pthread_rwlock_t mutex_;
 };
 
-class lock_shared
-{
+class lock_shared {
 public:
-    lock_shared(shared_mutex& mt, bool shared = false) 
-        : mutex_(mt)
-    { 
-        if (shared)
-        {
+    lock_shared(shared_mutex &mt, bool shared = false)
+        : mutex_(mt) {
+        if (shared) {
             mutex_.lock_read();
-        }
-        else
-        {
+        } else {
             mutex_.lock_write();
         }
     }
 
-    ~lock_shared()
-    {
+    ~lock_shared() {
         mutex_.unlock();
     }
 
 private:
-    shared_mutex& mutex_;
+    shared_mutex &mutex_;
 };

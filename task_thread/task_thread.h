@@ -12,22 +12,25 @@
 #include <atomic>
 #include <functional>
 
-class task_thread
-{
+class task_thread {
 public:
-    task_thread(const std::function<void()>& func);
+    task_thread(const std::function<void()> &func);
+
     ~task_thread();
 
     void stop();
+
     std::thread::id get_thread_id();
 
 private:
     void task_func();
-    task_thread(const task_thread&) = delete;
-    task_thread& operator=(const task_thread&) = delete;
+
+    task_thread(const task_thread &) = delete;
+
+    task_thread &operator=(const task_thread &) = delete;
 
 private:
     std::function<void()> func_;
     std::shared_ptr<std::thread> thread_;
-    std::atomic<bool> active_{ true };
+    std::atomic<bool> active_{true};
 };
